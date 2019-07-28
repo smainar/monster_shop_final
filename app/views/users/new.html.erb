@@ -6,10 +6,7 @@
   <%= f.email_field :email, required: true %>
 
   <%= f.fields_for :addresses do |fa| %>
-    <%= fa.label :nickname %>
-    <%= fa.text_field :nickname, required: true %>
-
-    <%= fa.label :street %>
+    <%= fa.label :street, "Street Address" %>
     <%= fa.text_field :street, required: true %>
 
     <%= fa.label :city %>
@@ -20,6 +17,9 @@
 
     <%= fa.label :zip %>
     <%= fa.text_field :zip, required: true %>
+
+    <%= fa.label :nickname, "Address Type" %>
+    <%= fa.text_field :nickname, required: true %>
   <% end %>
 
   <%= f.label :password %>
