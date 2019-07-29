@@ -3,9 +3,8 @@
 
 <% @user.addresses.each do |address| %>
   <section id="address-<%= address.id %>">
-    <p>Address Type: <%= address.nickname %></p>
-    <p>Address: <%= address.street %></p>
-    <p><%= address.city %>, <%= address.state %> <%= address.zip %></p>
+    <p>Address: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip %></p>
+    <p>(Type: <%= address.nickname %>)</p>
 
     <% if !current_admin? %>
       <%= link_to "Edit Address", edit_user_address_path(@user, address) %>
