@@ -16,7 +16,24 @@ class AddressesController < ApplicationController
     end
   end
 
+  def edit
+    @user = current_user
+    @address = Address.find(params[:id])
+  end
+
+  def update
+    @user = current_user
+    @address = Address.find(params[:id])
+    if @address.update!(address_params)
+      flash[:success] = "Your address was updated."
+      redirect_to profile_path
+    else
+      flash[:error] = @address.errors.full_messages.to_sentence
+      render :edit
+    end
+  end
+
   def address_params
-    params.require(:address).permit(:nickname, :street, :city, :state, :zip)
+    params.require(:address).permit(:nickname, :street, :city, :state, :zip, :user_id)
   end
 end
