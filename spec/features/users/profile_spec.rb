@@ -12,6 +12,7 @@ RSpec.describe "User Profile Path" do
 
     it "I can view my profile page" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      
       visit profile_path
 
       expect(page).to have_content(@user.name)
@@ -35,17 +36,11 @@ RSpec.describe "User Profile Path" do
 
       name = 'New Name'
       email = 'new@example.com'
-      street = '124 new str'
-      city = 'new town'
-      state = 'NY'
-      zip = '12034'
 
       fill_in "Name", with: name
       fill_in "Email", with: email
-      fill_in "Street Address", with: street
-      fill_in "City", with: city
-      fill_in "State", with: state
-      fill_in "Zip", with: zip
+      fill_in "Password", with: @user.password
+
       click_button 'Update Profile'
 
       expect(current_path).to eq(profile_path)
@@ -53,8 +48,6 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content('Profile has been updated!')
       expect(page).to have_content(name)
       expect(page).to have_content(email)
-      expect(page).to have_content(@user_address.street)
-      expect(page).to have_content("#{@user_address.city}, #{@user_address.state} #{@user_address.zip}")
     end
 
     it "I can update my password" do
