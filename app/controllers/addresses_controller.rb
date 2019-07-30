@@ -25,11 +25,20 @@ class AddressesController < ApplicationController
     @user = current_user
     @address = Address.find(params[:id])
     if @address.update!(address_params)
-      flash[:success] = "Your address was updated."
+      flash[:success] = "Address was updated!"
       redirect_to profile_path
     else
       flash[:error] = @address.errors.full_messages.to_sentence
       render :edit
+    end
+  end
+
+  def destroy
+    @address = Address.find(params[:id])
+    if @address.user_id == current_user.id
+      @address.destroy
+      flash[:success] = "Address was deleted!"
+      redirect_to profile_path
     end
   end
 
