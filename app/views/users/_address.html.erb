@@ -9,6 +9,8 @@
     <% if !current_admin? %>
       <%= link_to "Edit Address", edit_user_address_path(@user, address) %>
     <% end %>
+
+    <%= link_to "Delete Address", user_address_path(@user, address), method: :delete %>
   </section>
 <% end %>
 
