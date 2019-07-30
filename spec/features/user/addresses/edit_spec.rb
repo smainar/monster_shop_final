@@ -51,5 +51,93 @@ RSpec.describe "Edit Address Page", type: :feature do
         expect(@user_address_1.reload.zip).to have_content(zip)
       end
     end
+
+    it "I cannot edit an address without a street address" do
+      visit profile_path
+
+      click_link("Add Address")
+
+      type = "work"
+      street = "321 Logan St."
+      city = "Englewood"
+      state = "CO"
+      zip = 80113
+
+      fill_in "Address Type", with: type
+      # fill_in "Street Address", with: street
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+
+      click_on "Create Address"
+
+      expect(page).to have_content("Street can't be blank")
+    end
+
+    it "I cannot edit an address without a city" do
+      visit profile_path
+
+      click_link("Add Address")
+
+      type = "work"
+      street = "321 Logan St."
+      city = "Englewood"
+      state = "CO"
+      zip = 80113
+
+      fill_in "Address Type", with: type
+      fill_in "Street Address", with: street
+      # fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+
+      click_on "Create Address"
+
+      expect(page).to have_content("City can't be blank")
+    end
+
+    it "I cannot edit an address without a state" do
+      visit profile_path
+
+      click_link("Add Address")
+
+      type = "work"
+      street = "321 Logan St."
+      city = "Englewood"
+      state = "CO"
+      zip = 80113
+
+      fill_in "Address Type", with: type
+      fill_in "Street Address", with: street
+      fill_in "City", with: city
+      # fill_in "State", with: state
+      fill_in "Zip", with: zip
+
+      click_on "Create Address"
+
+      expect(page).to have_content("State can't be blank")
+    end
+
+    it "I cannot edit an address without a zip" do
+      visit profile_path
+
+      click_link("Add Address")
+
+      type = "work"
+      street = "321 Logan St."
+      city = "Englewood"
+      state = "CO"
+      zip = 80113
+
+      fill_in "Address Type", with: type
+      fill_in "Street Address", with: street
+      fill_in "City", with: city
+      fill_in "State", with: state
+      # fill_in "Zip", with: zip
+
+      click_on "Create Address"
+
+      expect(page).to have_content("Zip can't be blank")
+    end
   end
 end
