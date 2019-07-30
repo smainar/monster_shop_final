@@ -36,9 +36,11 @@ class AddressesController < ApplicationController
   def destroy
     @address = Address.find(params[:id])
     if @address.user_id == current_user.id
-      @address.destroy
-      flash[:success] = "Address was deleted!"
-      redirect_to profile_path
+      if @address.shipped_orders.none?
+        @address.destroy
+        flash[:success] = "Address was deleted!"
+        redirect_to profile_path
+      end
     end
   end
 
