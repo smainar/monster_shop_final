@@ -14,6 +14,8 @@ RSpec.describe 'Order Show Page' do
 
       @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan_1@example.com', password: 'securepassword')
       @user_address = @user.addresses.create!(street: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: "home")
+      @user_address_2 = @user.addresses.create!(street: '987 Spruce St', city: 'Denver', state: 'CO', zip: 80210, nickname: "home")
+      @user_address_3 = @user.addresses.create!(street: '456 Maple Rd', city: 'Vail', state: 'CO', zip: 81657, nickname: "work")
 
       @order_1 = @user.orders.create!(status: "packaged", address: @user_address)
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: true)
@@ -87,6 +89,54 @@ RSpec.describe 'Order Show Page' do
       expect(@order_item_3.fulfilled).to eq(false)
       expect(@giant.inventory).to eq(5)
       expect(@ogre.inventory).to eq(7)
+    end
+
+    it "If an order is still pending, I can change to which address I want my items shipped" do
+      visit "/profile/orders/#{@order_2.id}"
+
+      expect(page).to have_button("Change Address")
+      click_button("Change Address")
+      expect(current_path).to eq("/profile/orders/#{@order_2.id}/edit")
+
+      expect(page).to have_content("Select Your Shipping Address:")
+
+      within "#shipping-address" do
+        expect(page).to have_content(@user_address.street)
+        expect(page).to have_content(@user_address_2.street)
+        expect(page).to have_content(@user_address_3.street)
+        select(@user_address_2.street)
+        click_button "Update Address"
+      end
+
+      expect(page).to have_content("The shipping address for Order No.: #{@order_2.id} was updated.")
+      expect(current_path).to eq(profile_orders_path(@order_2))
+      expect(@order_2.address_id).to eq(@user_address_2.id)
+    end
+
+    it "displays the chosen shipping address" do
+      visit "/profile/orders/#{@order_2.id}"
+
+      expect(page).to have_content("Type: #{@user_address.nickname}")
+      expect(page).to have_content(@user_address.street)
+      expect(page).to have_content(@user_address.city)
+      expect(page).to have_content(@user_address.state)
+
+      click_button("Change Address")
+      expect(current_path).to eq("/profile/orders/#{@order_2.id}/edit")
+
+      within "#shipping-address" do
+        select(@user_address_3.street)
+        click_button "Update Address"
+      end
+      expect(page).to have_content("The shipping address for Order No.: #{@order_2.id} was updated.")
+      expect(current_path).to eq(profile_orders_path(@order_2))
+
+      click_on("Order No.: #{@order_2.id}")
+      
+      expect(page).to have_content("Type: #{@user_address_3.nickname}")
+      expect(page).to have_content(@user_address_3.street)
+      expect(page).to have_content(@user_address_3.city)
+      expect(page).to have_content(@user_address_3.state)
     end
   end
 end
