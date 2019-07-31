@@ -7,10 +7,11 @@ class User::OrdersController < ApplicationController
 
   def show
     @order = current_user.orders.find(params[:id])
+    @address = Address.find(@order.address_id)
   end
 
   def create
-    order = current_user.orders.new
+    order = current_user.orders.new(address_id: params[:address])
     order.save
       cart.items.each do |item|
         order.order_items.create({
@@ -22,6 +23,17 @@ class User::OrdersController < ApplicationController
     session.delete(:cart)
     flash[:notice] = "Order created successfully!"
     redirect_to '/profile/orders'
+  end
+
+  def edit
+    @order = current_user.orders.find(params[:id])
+  end
+
+  def update
+    @order = current_user.orders.find(params[:id])
+    @order.update(address_id: params[:address])
+    flash[:success] = "The shipping address for Order No.: #{@order.id} was updated."
+    redirect_to profile_orders_path(@order)
   end
 
   def cancel
