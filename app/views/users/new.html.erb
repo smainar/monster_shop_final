@@ -1,32 +1,32 @@
 <%= form_for @user do |f| %>
   <%= f.label :name %>
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, class: "new-input" %>
 
   <%= f.label :email %>
-  <%= f.email_field :email, required: true %>
+  <%= f.email_field :email, required: true, class: "new-input" %>
 
   <%= f.fields_for :addresses do |fa| %>
     <%= fa.label :street, "Street Address" %>
-    <%= fa.text_field :street, required: true %>
+    <%= fa.text_field :street, required: true, class: "new-input" %>
 
     <%= fa.label :city %>
-    <%= fa.text_field :city, required: true %>
+    <%= fa.text_field :city, required: true, class: "new-input" %>
 
     <%= fa.label :state %>
-    <%= fa.text_field :state, required: true %>
+    <%= fa.text_field :state, required: true, class: "new-input" %>
 
     <%= fa.label :zip %>
-    <%= fa.text_field :zip, required: true %>
+    <%= fa.text_field :zip, required: true, class: "new-input" %>
 
     <%= fa.label :nickname, "Address Type" %>
-    <%= fa.text_field :nickname, required: true %>
+    <%= fa.text_field :nickname, required: true, class: "new-input" %>
   <% end %>
 
   <%= f.label :password %>
-  <%= f.password_field :password, required: true %>
+  <%= f.password_field :password, required: true, class: "new-input" %>
 
   <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation, required: true %>
+  <%= f.password_field :password_confirmation, required: true, class: "new-input" %>
 
   <%= f.submit 'Register' %>
 <% end %>

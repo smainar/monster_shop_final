@@ -1,12 +1,12 @@
 <%= form_for @user do |f| %>
   <%= f.label :name %>
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, class: "new-input" %>
 
   <%= f.label :email %>
-  <%= f.email_field :email, required: true %>
+  <%= f.email_field :email, required: true, class: "new-input" %>
 
   <%= f.label :password %>
-  <%= f.password_field :password, required: true %>
+  <%= f.password_field :password, required: true, class: "new-input" %>
 
   <%= f.submit 'Update Profile' %>
 <% end %>
