@@ -1,12 +1,12 @@
 <%= form_tag review_path(@review), method: :patch do %>
   <%= label_tag :title %>
-  <%= text_field_tag :title, @review.title %>
+  <%= text_field_tag :title, @review.title, class: "new-input" %>
 
   <%= label_tag :description %>
-  <%= text_field_tag :description, @review.description %>
+  <%= text_field_tag :description, @review.description, class: "new-input" %>
 
   <%= label_tag :rating %>
-  <%= number_field_tag :rating, @review.rating %>
+  <%= number_field_tag :rating, @review.rating, class: "new-input" %>
 
   <%= submit_tag 'Update Review' %>
 <% end %>
