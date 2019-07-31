@@ -1,4 +1,16 @@
 <h1><%= @user.name %></h1>
 <p><%= @user.email %></p>
-<p><%= @user.address %></p>
-<p><%= @user.city %> <%= @user.state %> <%= @user.zip %></p>
+
+<% @user.addresses.each do |address| %>
+  <section id="address-<%= address.id %>">
+    <p>Address: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip %></p>
+    <p>(Type: <%= address.nickname %>)</p>
+
+    <% if address.shipped_orders.none? %>
+      <%= link_to "Edit Address", edit_user_address_path(@user, address) if !current_admin? %>
+      <%= link_to "Delete Address", user_address_path(@user, address), method: :delete %>
+    <% end %>
+  </section>
+<% end %>
+
+<%= link_to "Add Address", "/users/#{@user.id}/addresses/new" %>

@@ -16,10 +16,24 @@
       <%= button_to 'Remove', "/cart/#{item.id}", method: :delete %>
     </section>
   <% end %>
+
   <section id='checkout'>
     <% if current_user %>
-      <%= button_to 'Check Out', '/orders' %>
-    <% else %>
+      <% if current_user.addresses.any? %>
+
+        <%= form_tag(orders_path, method: :post) do %>
+          <section id="shipping-address">
+            <h4>Ship to:</h4>
+            <%= select_tag "address", options_from_collection_for_select(current_user.addresses, "id", "street") %>
+            <%= submit_tag "Check Out" %>
+          </section>
+          <% end %>
+
+        <% else %>
+        <p>To check out, you must <%= link_to "add a shipping address", "/users/#{current_user.id}/addresses/new" %>.</p>
+        <% end %>
+
+      <% else %>
       <p>You must <%= link_to 'register', registration_path %> or <%= link_to 'log in', login_path %> to checkout.</p>
     <% end %>
   </section>

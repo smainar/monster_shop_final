@@ -4,13 +4,19 @@
 <p>Status: <%= @order.status %></p>
 <p><%= @order.count_of_items %> items</p>
 <p>Total: <%= number_to_currency(@order.grand_total) %></p>
+
+<h2>Shipping Information:</h2>
+<p>Address: <%= @order.address.street %>, <%= @order.address.city %>, <%= @order.address.state %> <%= @order.address.zip %></p>
+<p>(Type: <%= @order.address.nickname %>)</p>
+
 <%= button_to 'Cancel Order', "/profile/orders/#{@order.id}", method: :delete if @order.pending? %>
+<%= button_to 'Change Address', "/profile/orders/#{@order.id}/edit", method: :get if @order.pending? || !@order.shipped? %>
 
 <h2>Order Items</h2>
 <% @order.order_items.each do |order_item| %>
   <section id='order-item-<%= order_item.id %>'>
     <h3><%= link_to order_item.item.name, item_path(order_item.item) %></h3>
-    <p><%= order_item.item.description %></p>
+    <p>Description: <%= order_item.item.description %></p>
     <p>Quantity: <%= order_item.quantity %></p>
     <p>Price: <%= number_to_currency(order_item.price) %></p>
     <p>Subtotal: <%= number_to_currency(order_item.subtotal) %></p>
